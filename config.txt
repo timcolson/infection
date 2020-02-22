@@ -1,0 +1,44 @@
+// ------------------------------------
+ // Simple Configure Cell Function
+ // ------------------------------------
+ 
+ var vacThreshold = 0.999
+
+ public func configureCell(cell: Cell) {
+     
+     let threshold = 1.0 - 0.1 * Double(cell.numberOfAliveNeighbors)
+     
+     switch cell.state {
+     
+     case .alive:
+         // Cell has virus
+         cell.state = .alive
+     case .dead:
+         //  Case is used to represent cells that have been vaccinated
+         cell.state = .dead
+     case .idle:
+         
+         let vacRandom = Double.random(in: 0.0 ... 1.0)
+         if vacRandom > vacThreshold {
+             cell.state = .dead
+         }
+         
+         //  Cell does NOT have virus
+         
+         let random = Double.random(in: 0.0 ... 1.0)
+         if random > threshold {
+             if cell.state != .dead {
+                 cell.state = .alive
+             }
+         }
+         
+         let randomTraveler = Double.random(in: 0.0 ... 1.0)
+         //  Make 0.9999 below be a threshold constant
+         if randomTraveler > 0.9999 {
+             cell.state = .alive
+         }
+         
+     }
+     
+     vacThreshold -= 0.0000001
+ }
