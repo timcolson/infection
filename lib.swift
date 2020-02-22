@@ -1,3 +1,5 @@
+import Foundation
+
 func askForNumber(_ prompt: String, defaultNumber: Int = 0) -> Int {
   print(prompt, terminator:" (\(defaultNumber)) > ")
 
@@ -11,4 +13,8 @@ func askForNumber(_ prompt: String, defaultNumber: Int = 0) -> Int {
     }         
     print("Invalid entry, try again > ", terminator:"")
   }
+}
+
+func dformat(_ n: Double, places: Int = 4) -> String {
+  return String(format:"%.\(places)f", n)
 }

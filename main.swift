@@ -1,7 +1,7 @@
 /**
 Simulation app for in-class demonstration of viral infection from neighbor to neighbor.
 */
-
+import Foundation
 
 // Setup
 enum HealthStatus {
@@ -22,29 +22,41 @@ border += "\n  " + border
 
 // Simulation
 while yourStatus == .healthy {
+  // Infection based on neighbor count
+  let neighborCount = askForNumber("Round \(counter): Number of infected neighbors?", defaultNumber: infectedNeighbors)
+  infectedNeighbors = neighborCount
 
-    // Infection based on neighbor count
-    let neighborCount = askForNumber("Round \(counter): Number of infected neighbors?", defaultNumber: infectedNeighbors)
-    infectedNeighbors = neighborCount
+  let threshold = 1.0 - (0.1 * Double(neighborCount))
+  let r = Double.random(in: 0.0 ... 1.0)    
+  print("Threshold with \(infectedNeighbors) infected neighbors : \(dformat(threshold))")
 
-    let threshold = 1.0 - (0.1 * Double(neighborCount))
-    let r = Double.random(in: 0.0 ... 1.0)    
-    if r > threshold {
-        yourStatus = .infected
-        print("Infection \(r) over \(threshold)")
-    } else {
-        print("Infection \(r) under \(threshold) \n--> NOT Infected... yet. 😂")
-    }
+// Simulate Vaccination
+    print("... simulating vaccination with \(dformat(vaccinationThreshold)) vax threshold...")
+    sleep(1)
 
-    // Vaccination?
     let v = Double.random(in: 0.0 ... 1.0)
     if v > vaccinationThreshold {
       yourStatus = .vaccinated
-      print("Vax \(v) over \(vaccinationThreshold)")
+      print(" Yay! \(dformat(v)) exceeded \(dformat(vaccinationThreshold)) vax threshold!")
+      break
     } else {
-      print("Vax \(v) under \(vaccinationThreshold) \n--> NOT vaccinated!")
+      print(" \(dformat(v)) under \(dformat(vaccinationThreshold)) vax threshold --> NOT vaccinated!")
       vaccinationThreshold -= vaccinationThresholdReduction
     }
+
+
+    
+    print("... simulating transmission ...")
+    sleep(1)
+
+    if r > threshold {
+        yourStatus = .infected
+        print(" \(dformat(r)) exceeded threshold, you are infected!")
+    } else {
+        print(" \(dformat(r)) was under threshold, you are healthy!")
+    }
+
+    
 
     counter += 1
     print()
