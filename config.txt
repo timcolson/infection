@@ -1,3 +1,5 @@
+// Code for Blink simulation on iPad
+
 // ------------------------------------
  // Simple Configure Cell Function
  // ------------------------------------
